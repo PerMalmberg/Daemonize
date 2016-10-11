@@ -14,24 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c47dabfb-649a-4d03-bb46-0afd151a6ce9" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/externals/Catch" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitmodules" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/Daemonize.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/codeStyleSettings.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/runConfigurations/Test.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Test/Application.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Test/Application.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Test/CMakeLists.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Test/main.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Test/test.cpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/daemonize/CMakeLists.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/daemonize/dist/include/daemonize/Daemon.h" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/daemonize/src/Daemon.cpp" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path="Daemonize.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,8 +47,8 @@
       <file leaf-file-name="test.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Test/test.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="564">
-              <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+            <state relative-caret-position="438">
+              <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
               <folding>
                 <element signature="e#114#131#0" expanded="true" />
               </folding>
@@ -494,12 +477,20 @@
       <updated>1476212700437</updated>
       <workItem from="1476212702208" duration="632000" />
       <workItem from="1476213421695" duration="6680000" />
-      <workItem from="1476220508384" duration="4263000" />
+      <workItem from="1476220508384" duration="4458000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial commit with some framework tests.">
+      <created>1476224799887</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1476224799887</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11575000" />
+    <option name="totallyTimeSpent" value="11770000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
@@ -536,6 +527,10 @@
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit with some framework tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit with some framework tests." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -831,8 +826,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Test/test.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="564">
-          <caret line="60" column="0" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+        <state relative-caret-position="438">
+          <caret line="53" column="9" selection-start-line="53" selection-start-column="9" selection-end-line="53" selection-end-column="9" />
           <folding>
             <element signature="e#114#131#0" expanded="true" />
           </folding>
