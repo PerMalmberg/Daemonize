@@ -6,10 +6,14 @@
 
 #include <daemonize/Daemon.h>
 
-class Application : public daemonize::Daemon
+class Application
 {
 public:
+
 	int Run();
 
-	int RunAsDaemon();
+	bool RunAsDaemon();
+
+private:
+	daemonize::Daemon deamonizer;
 };

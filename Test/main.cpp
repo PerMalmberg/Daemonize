@@ -22,7 +22,7 @@ int main( int argc, const char* const argv[], const char* envp[] )
 		if( strcmp( argv[1], "daemonize" ) == 0 )
 		{
 			Application app;
-			result = app.RunAsDaemon();
+			result = app.RunAsDaemon() ? 0 : 1;
 			std::cout << "Daemonize\n";
 		}
 		else if( strcmp( argv[1], "regular" ) == 0 )

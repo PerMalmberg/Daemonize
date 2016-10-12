@@ -4,6 +4,10 @@
 
 #pragma once
 
+#include <sys/types.h>
+#include <string>
+#include <streambuf>
+
 namespace daemonize {
 
 class Daemon
@@ -11,11 +15,19 @@ class Daemon
 public:
 	virtual ~Daemon()
 	{
+		// Close streams
 	}
 
+	// Deamonizes the process.
+	// Returns true on success, false on failure.
+	// isDaemon is true if the current process is the daemon.
+	bool Daemonize( const std::string& workingDir, bool& isDaemon );
 
-protected:
-	bool Daemonize();
+	int GetDaemonPid() const { return daemonPid; }
+private:
+	const int FORK_ERROR = -1;
+	const int FORK_NEW_PROCESS = 0;
+	__pid_t daemonPid;
 };
 
 }

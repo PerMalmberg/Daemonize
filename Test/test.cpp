@@ -34,7 +34,8 @@ int Execute( const std::string& cmd, std::vector<std::string>& args, std::string
 				}
 			}
 
-			result = pclose(file) / 256;
+			auto code = pclose(file);
+			result =  WEXITSTATUS( code );
 		}
 		else
 		{
@@ -74,7 +75,7 @@ SCENARIO( "Test application can be executed by itself" )
 	}
 }
 
-SCENARIO("Application can be run as non-daemon")
+SCENARIO("Application can be run as daemon")
 {
 	GIVEN( "The path to the test" )
 	{
@@ -83,8 +84,9 @@ SCENARIO("Application can be run as non-daemon")
 			std::vector<std::string> args{ "daemonize" };
 			std::string output;
 			REQUIRE( 1 == Execute( cmdArgs.front().c_str(), args, output ) );
-			REQUIRE( output.length() == 10 );
-			REQUIRE( output == "Daemonize\n" );
+			REQUIRE( output.length() > 0 );
 		}
 	}
 }
+
+
