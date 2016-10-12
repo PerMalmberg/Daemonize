@@ -9,21 +9,8 @@
 
 extern std::vector<std::string> cmdArgs;
 
-class PFileCloser : public std::default_delete<FILE>
-{
-public:
-	int operator()(FILE* file)  {
-		exitCode = pclose( file ) >> 24; // Result of child process is in upper 8 bits.
-	}
-
-	int Get() const { return exitCode; }
-private:
-	int exitCode;
-};
-
 int Execute( const std::string& cmd, std::vector<std::string>& args, std::string& output )
 {
-	// http://stackoverflow.com/questions/478898/how-to-execute-a-command-and-get-output-of-command-within-c-using-posix#478960
 	int result = 0;
 
 	std::string c( cmd );
@@ -35,7 +22,6 @@ int Execute( const std::string& cmd, std::vector<std::string>& args, std::string
 
 	char buffer[128];
 	output = "";
-	// provide a deleter to catch the exit code.
 	{
 		FILE* file = popen( c.c_str(), "r" );
 		if( file )
