@@ -6,11 +6,15 @@
 #include <string>
 #include <cstring>
 #include <unistd.h>
+#include <thread>
 #include "Catch/include/catch.hpp"
+
+using namespace std;
+using namespace std::chrono_literals;
 
 extern std::vector<std::string> cmdArgs;
 
-int Execute( const std::string& cmd, std::vector<std::string>& args, std::string& output )
+int Execute( const string& cmd, vector<std::string>& args, string& output )
 {
 	int result = 0;
 
@@ -102,7 +106,7 @@ SCENARIO("Application can be run as daemon")
 			unlink( "./stderr.log");
 			REQUIRE( 0 == Execute( cmdArgs.front().c_str(), args, output ) );
 			// Wait for daemon to complete
-			sleep(3);
+			this_thread::sleep_for( 3s );
 			REQUIRE( GetFileSize( "./stdout.log" ) > 15 );
 			REQUIRE( GetFileSize( "./stderr.log" ) == 0 );
 			unlink( "./stdout.log");

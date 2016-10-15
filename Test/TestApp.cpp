@@ -3,8 +3,12 @@
 // Give credit where credit is due.
 
 #include <iostream>
-#include <unistd.h>
+#include <chrono>
+#include <thread>
 #include "TestApp.h"
+
+using namespace std::chrono_literals;
+using namespace std;
 
 TestApp::TestApp( const std::string& workingDirectory )
 		: Application( workingDirectory )
@@ -16,8 +20,8 @@ int TestApp::Main()
 
 	for( int i = 0; i < 2; ++i )
 	{
-		std::cout << "Daemon " << GetDaemonPid() << std::endl;
-		sleep(1);
+		cout << "Daemon " << GetDaemonPid() << std::endl;
+		this_thread::sleep_for( 1s );
 	}
 
 	return 0;
