@@ -6,6 +6,7 @@
 
 class ISignalInfo
 {
+public:
 	// Retrieves a value for the the specified signal and resets the stored value.
 	// Return value is true if the signal has been received. Note that the value is
 	// reset on each read so sequential polls are very unlikely to return true.
