@@ -2,12 +2,14 @@
 <module type="CPP_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/Test/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Test/TestApp.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Test/main.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/Test/test.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Test/Application.cpp" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/Test/Application.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Test/TestApp.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Test/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/daemonize/src/Application.cpp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/daemonize/src/Daemon.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/daemonize/dist/include/daemonize/Application.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/daemonize/dist/include/daemonize/Daemon.h" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/daemonize/CMakeLists.txt" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />

@@ -10,17 +10,18 @@
 namespace daemonize {
 
 
-bool Daemon::Daemonize( const std::string& workingDir, bool& isDaemon )
+bool Daemon::Daemonize( const std::string& workingDir, ProcessIdentity& identity )
 {
 	// http://web.archive.org/web/20120914180018/http://www.steve.org.uk/Reference/Unix/faq_2.html#SEC16
-	bool result = false;
-	isDaemon = false;
+	bool result;
+	identity = ORIGINAL_PROCESS;
 
 	// Fork so the parent process can exit, this will return control to the command line or shell that invoked us.
 	int pid = fork();
 	if( pid == FORK_ERROR )
 	{
 		// Could not fork
+		result = false;
 	}
 	else if( pid == FORK_NEW_PROCESS )
 	{
@@ -28,8 +29,8 @@ bool Daemon::Daemonize( const std::string& workingDir, bool& isDaemon )
 		// setsid() to become a process group and session group leader. Since a controlling terminal is
 		// associated with a session, and this new session has not yet acquired a controlling terminal our
 		// process now has no controlling terminal, which is a Good Thing for daemons.
-		auto mySid = setsid();
-		std::cout << "I am the new process:, my process is is " << mySid << '\n';
+		identity = INTERMEDIATE_PROCESS;
+		setsid();
 
 		// Fork again so the parent (the session group leader) can exit.
 		// This means that we, as a non-session group leader, can never regain a controlling terminal.
@@ -37,11 +38,13 @@ bool Daemon::Daemonize( const std::string& workingDir, bool& isDaemon )
 		if( pid == FORK_ERROR )
 		{
 			// Could not a second time
+			result = false;
 		}
 		else if( pid == FORK_NEW_PROCESS )
 		{
 			// Daemon process
-			daemonPid = setsid();
+			myDaemonPid = setsid();
+			identity = DAEMON_PROCESS;
 
 			// chdir to ensure that our process doesn't keep any directory in use. Failure to do this could
 			// make it so that an administrator couldn't unmount a filesystem, because it was our current directory.
@@ -59,20 +62,11 @@ bool Daemon::Daemonize( const std::string& workingDir, bool& isDaemon )
 			// close all possible file descriptors. You have to decide if you need to do this or not.
 			// If you think that there might be file-descriptors open you should close them, since there's
 			// a limit on number of concurrent file descriptors.
-			for( int i = 0; i < _SC_OPEN_MAX; ++i )
+			for( int i = 0; i < sysconf( _SC_OPEN_MAX ); ++i )
 			{
 				close( i );
 			}
 
-			// Redirect stdout and stderr.
-			//std::cout.rdbuf(myStdout);
-
-			//freopen( "/home/permal/code/Daemonize/Test/dist/bin/Debug/stdout.log", "a+", stdout );
-			//freopen( "/home/permal/code/Daemonize/Test/dist/bin/Debug/stderr.log", "a+", stderr );
-			freopen( "/dev/null", "r", stdin );
-
-			std::cout << "From the daemon\n";
-			isDaemon = true;
 			result = true;
 		}
 		else
@@ -84,10 +78,17 @@ bool Daemon::Daemonize( const std::string& workingDir, bool& isDaemon )
 	else
 	{
 		// Old process, first fork
-		std::cout << "Intermediary pid: " << pid << '\n';
+		result = true;
 	}
 
 	return result;
+}
+
+void Daemon::OpenStreams( const std::string& stdOut, const std::string& stdErr )
+{
+	freopen( stdOut.c_str(), "a+", stdout );
+	freopen( stdErr.c_str(), "a+", stderr );
+	freopen( "/dev/null", "r", stdin );
 }
 
 }

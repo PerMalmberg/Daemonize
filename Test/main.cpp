@@ -5,7 +5,10 @@
 #define CATCH_CONFIG_RUNNER
 
 #include "Catch/include/catch.hpp"
-#include "Application.h"
+#include "daemonize/Application.h"
+#include "TestApp.h"
+
+using namespace daemonize;
 
 std::vector<std::string> cmdArgs;
 
@@ -13,21 +16,23 @@ int main( int argc, const char* const argv[], const char* envp[] )
 {
 	int result = 1;
 
-	for( int i = 0; i < argc; ++i ) {
+	for( int i = 0; i < argc; ++i )
+	{
 		cmdArgs.push_back( argv[i] );
 	}
+
+
 
 	if( argc > 1 )
 	{
 		if( strcmp( argv[1], "daemonize" ) == 0 )
 		{
-			Application app;
-			result = app.RunAsDaemon() ? 0 : 1;
-			std::cout << "Daemonize\n";
+			TestApp app(".");
+			result = app.RunAsDaemon();
 		}
 		else if( strcmp( argv[1], "regular" ) == 0 )
 		{
-			Application app;
+			TestApp app(".");
 			result = app.Run();
 		}
 		else if( strcmp( argv[1], "testrun" ) == 0 )

@@ -7,7 +7,10 @@ include_directories( dist/include )
 
 set(SOURCE_FILES
         dist/include/daemonize/Daemon.h
-        src/Daemon.cpp)
+        dist/include/daemonize/Application.h
+        src/Daemon.cpp
+        src/Application.cpp
+        )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 

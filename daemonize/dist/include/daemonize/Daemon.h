@@ -13,6 +13,13 @@ namespace daemonize {
 class Daemon
 {
 public:
+	enum ProcessIdentity
+	{
+		ORIGINAL_PROCESS = 0,
+		INTERMEDIATE_PROCESS,
+		DAEMON_PROCESS
+	};
+
 	virtual ~Daemon()
 	{
 		// Close streams
@@ -20,14 +27,21 @@ public:
 
 	// Deamonizes the process.
 	// Returns true on success, false on failure.
-	// isDaemon is true if the current process is the daemon.
-	bool Daemonize( const std::string& workingDir, bool& isDaemon );
+	// processIdentity tells the caller if it is the original, intermediate or daemon processes.
+	bool Daemonize( const std::string& workingDir, ProcessIdentity& identity );
 
-	int GetDaemonPid() const { return daemonPid; }
+	// Opens the standard output streams with redirection to the specified files.
+	void OpenStreams( const std::string& stdOut, const std::string& stdErr );
+
+	int GetDaemonPid() const
+	{
+		return myDaemonPid;
+	}
+
 private:
 	const int FORK_ERROR = -1;
 	const int FORK_NEW_PROCESS = 0;
-	__pid_t daemonPid;
+	int myDaemonPid;
 };
 
 }

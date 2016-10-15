@@ -8,8 +8,7 @@ include_directories( ../daemonize/dist/include )
 
 set(SOURCE_FILES
         test.cpp
-        Application.cpp
-        Application.h main.cpp)
+        main.cpp TestApp.cpp TestApp.h)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 target_link_libraries( ${PROJECT_NAME} Daemonize )
