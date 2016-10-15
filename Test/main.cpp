@@ -30,6 +30,11 @@ int main( int argc, const char* const argv[], const char* envp[] )
 			TestApp app(".");
 			result = app.RunAsDaemon();
 		}
+		else if(strcmp( argv[1], "signal" ) == 0 )
+		{
+			TestApp app(".", "./daemon.pid");
+			result = app.RunAsDaemon();
+		}
 		else if( strcmp( argv[1], "regular" ) == 0 )
 		{
 			TestApp app(".");

@@ -67,6 +67,7 @@ bool Daemon::Daemonize( const std::string& workingDir, ProcessIdentity& identity
 				close( i );
 			}
 
+			myIsDaemon = true;
 			result = true;
 		}
 		else

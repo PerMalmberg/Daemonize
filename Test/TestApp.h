@@ -12,8 +12,13 @@ class TestApp : public daemonize::Application
 public:
 	TestApp( const std::string& workingDirectory );
 
+	TestApp( const std::string& workingDirectory, const std::string& daemonPidFile );
+
 protected:
 	int Main();
+
+private:
+	const std::string myDaemonPidFile;
 };
 
 

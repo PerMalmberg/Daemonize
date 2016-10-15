@@ -10,7 +10,7 @@ set(SOURCE_FILES
         dist/include/daemonize/Application.h
         src/Daemon.cpp
         src/Application.cpp
-        )
+        dist/include/daemonize/ISignalInfo.h)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 

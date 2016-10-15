@@ -38,9 +38,15 @@ public:
 		return myDaemonPid;
 	}
 
+	bool IsDaemon() const
+	{
+		return myIsDaemon;
+	}
+
 private:
 	const int FORK_ERROR = -1;
 	const int FORK_NEW_PROCESS = 0;
+	bool myIsDaemon = false;
 	int myDaemonPid;
 };
 

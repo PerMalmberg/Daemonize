@@ -7,6 +7,9 @@
 #include <cstring>
 #include <unistd.h>
 #include <thread>
+#include <fstream>
+#include <signal.h>
+#include <iostream>
 #include "Catch/include/catch.hpp"
 
 using namespace std;
@@ -39,8 +42,8 @@ int Execute( const string& cmd, vector<std::string>& args, string& output )
 				}
 			}
 
-			auto code = pclose(file);
-			result =  WEXITSTATUS( code );
+			auto code = pclose( file );
+			result = WEXITSTATUS( code );
 		}
 		else
 		{
@@ -63,6 +66,12 @@ long GetFileSize( const std::string& file )
 	}
 
 	return res;
+}
+
+void ClearLogs()
+{
+	unlink( "./stdout.log" );
+	unlink( "./stderr.log" );
 }
 
 SCENARIO( "Execution of command works" )
@@ -94,7 +103,7 @@ SCENARIO( "Test application can be executed by itself" )
 	}
 }
 
-SCENARIO("Application can be run as daemon")
+SCENARIO( "Application can be run as daemon" )
 {
 	GIVEN( "The path to the test" )
 	{
@@ -102,17 +111,40 @@ SCENARIO("Application can be run as daemon")
 		{
 			std::vector<std::string> args{ "daemonize" };
 			std::string output;
-			unlink( "./stdout.log");
-			unlink( "./stderr.log");
+			ClearLogs();
 			REQUIRE( 0 == Execute( cmdArgs.front().c_str(), args, output ) );
 			// Wait for daemon to complete
 			this_thread::sleep_for( 3s );
 			REQUIRE( GetFileSize( "./stdout.log" ) > 15 );
 			REQUIRE( GetFileSize( "./stderr.log" ) == 0 );
-			unlink( "./stdout.log");
-			unlink( "./stderr.log");
+			ClearLogs();
 		}
 	}
 }
 
+SCENARIO( "Signals caught when run as a daemon" )
+{
+	GIVEN( "A running daemon" )
+	{
+		std::vector<std::string> args{ "signal" };
+		std::string output;
+		ClearLogs();
+		unlink( "./daemon.pid" );
+		unlink( "./sigterm.signal" );
+		REQUIRE( 0 == Execute( cmdArgs.front().c_str(), args, output ) );
+		// Wait for daemon to start
+		this_thread::sleep_for( 1s );
+		ifstream pidfFile( "./daemon.pid", ios::binary );
+		REQUIRE( pidfFile.is_open() );
+		int pid;
+		pidfFile.read( reinterpret_cast<char*>( &pid ), sizeof( pid ) );
+		REQUIRE( pidfFile.gcount() == sizeof( pid ) );
+		pidfFile.close();
+		kill( pid, SIGTERM );
+		// Wait for termination
+		this_thread::sleep_for( 1s );
+		REQUIRE( GetFileSize( "./sigterm.signal" ) > 0 );
+		ClearLogs();
 
+	}
+}
