@@ -27,6 +27,6 @@ When calling ```RunAsDaemon()```, your application will actually be cloned twice
 
 #Signals
 The ```Application``` class intercepts the signals specified in the ```myInterceptedSignals``` member. Among these are 
-SIGINT and SIGTERM. This means that you must manually poll the state if these signals via the ```ISignalInfo``` interface in the
+SIGINT and SIGTERM. This means that you must manually poll the state of these signals via the ```ISignalInfo``` interface in the
 application in order to determine when it is time to perform a shutdown. The other signals may be used to trigger other
  functions in the application.
