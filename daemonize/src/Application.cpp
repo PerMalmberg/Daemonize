@@ -8,6 +8,7 @@
 using namespace daemonize;
 
 Application* Application::mySelf;
+const int Application::myInterceptedSignals[];
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -71,7 +72,7 @@ void Application::SetupSignalHandlers()
 	sigfillset( &sa.sa_mask );
 
 	// Add handles for wanted signals
-	for( auto signal : myInterceptedSignals)
+	for( auto signal : myInterceptedSignals )
 	{
 		sigaction( signal, &sa, nullptr );
 	}
@@ -83,18 +84,9 @@ void Application::SetupSignalHandlers()
 ///////////////////////////////////////////////////////////////////////////////
 void Application::HandleSignal( int signal )
 {
-	mySelf->SetSignal( signal );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//
-//
-///////////////////////////////////////////////////////////////////////////////
-void Application::SetSignal( int signal )
-{
 	if( ValidateSignal( signal ) )
 	{
-		mySignals[signal].store( true );
+		mySelf->SignalReceived( signal );
 	}
 }
 
@@ -102,28 +94,18 @@ void Application::SetSignal( int signal )
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-bool Application::ValidateSignal( int signal ) const
+void Application::SignalReceived( int signal )
 {
-	return signal > 0 && signal < sizeof( mySignals );
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-bool Application::PollSignal( int signal )
+bool Application::ValidateSignal( int signal )
 {
-	bool result;
-
-	if( ValidateSignal(signal))
-	{
-		result = mySignals[signal];
-		mySignals[signal].store( false );
-	}
-	else {
-		result = false;
-	}
-
-	return result;
+	return std::find( std::begin(myInterceptedSignals), std::end(myInterceptedSignals), signal ) != nullptr;
 }
+
 

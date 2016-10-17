@@ -33,7 +33,7 @@ int TestApp::Main()
 		f.close();
 
 		// Run until sigterm is received
-		while( !PollSignal( SIGTERM ) )
+		while( !sigTermReceived )
 		{
 			this_thread::sleep_for( 100ms );
 		}
@@ -55,5 +55,12 @@ int TestApp::Main()
 	}
 
 	return 0;
+}
+
+void TestApp::SignalReceived( int signal )
+{
+	if( signal == SIGTERM ) {
+		sigTermReceived = true;
+	}
 }
 

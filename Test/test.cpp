@@ -145,6 +145,5 @@ SCENARIO( "Signals caught when run as a daemon" )
 		this_thread::sleep_for( 1s );
 		REQUIRE( GetFileSize( "./sigterm.signal" ) > 0 );
 		ClearLogs();
-
 	}
 }

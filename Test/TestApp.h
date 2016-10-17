@@ -15,10 +15,12 @@ public:
 	TestApp( const std::string& workingDirectory, const std::string& daemonPidFile );
 
 protected:
-	int Main();
+	int Main() override;
 
+	void SignalReceived( int signal ) override;
 private:
 	const std::string myDaemonPidFile;
+	bool sigTermReceived = false;
 };
 
 
