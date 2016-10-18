@@ -16,7 +16,7 @@ namespace daemonize {
 class Application
 {
 public:
-	Application( const std::string& workingDirectory );
+	explicit Application( const std::string& workingDirectory );
 
 	int Run();
 
