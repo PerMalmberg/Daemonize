@@ -96,7 +96,7 @@ SCENARIO( "Test application can be executed by itself" )
 		{
 			std::vector<std::string> args{ "testrun" };
 			std::string output;
-			REQUIRE( std::numeric_limits<int8_t>::max() == Execute( cmdArgs.front().c_str(), args, output ) );
+			REQUIRE( std::numeric_limits<int8_t>::max() == Execute( cmdArgs.front(), args, output ) );
 			REQUIRE( output.length() > 0 );
 			REQUIRE( output == "testrun\n" );
 		}

@@ -8,7 +8,7 @@
 using namespace daemonize;
 
 Application* Application::mySelf;
-const int Application::myInterceptedSignals[];
+constexpr int Application::myInterceptedSignals[];
 
 ///////////////////////////////////////////////////////////////////////////////
 //
