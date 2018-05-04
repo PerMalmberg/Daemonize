@@ -5,58 +5,71 @@
 #pragma once
 
 #include <vector>
-#include <signal.h>
+#include <csignal>
 #include <atomic>
 #include <array>
 #include <algorithm>
+#include <functional>
+
 #include <daemonize/Daemon.h>
 
-namespace daemonize {
-
-class Application
+namespace daemonize
 {
-public:
-	explicit Application( const std::string& workingDirectory );
 
-	int Run();
+    class Application
+    {
+        public:
+            explicit Application(const std::string& workingDirectory);
 
-	int RunAsDaemon();
+            int Run();
 
-protected:
-	// Method called once the application is initialized, possible as a daemon.
-	virtual int Main() = 0;
+            // Pass a callback to this method if you require checks to be done when running as a daemon.
+            // Return true if the daemon should continue to run.
+            int RunAsDaemon(
+                    std::function<bool(void)> as_daemon = []()
+                    {
+                        return true;
+                    }
+            );
 
-	// Opens the standard streams, with output to the specified files.
-	void OpenStandardStreams( const std::string& stdOut, const std::string& stdErr )
-	{
-		myDaemonizer.OpenStreams( stdOut, stdErr );
-	}
+            // Method called once the application is initialized, possibly as a daemon.
+            virtual int Main() = 0;
 
-	int GetDaemonPid() const
-	{
-		return myDaemonizer.GetDaemonPid();
-	}
+        protected:
 
-	bool IsDaemon() const
-	{
-		return myDaemonizer.IsDaemon();
-	}
+            // Opens the standard streams, with output to the specified files.
+            void OpenStandardStreams(const std::string& stdOut, const std::string& stdErr)
+            {
+                myDaemonizer.OpenStreams(stdOut, stdErr);
+            }
 
-	// Called when a signal is intercepted
-	virtual void SignalReceived( int signal ) = 0;
-private:
-	void SetupSignalHandlers();
+            int GetDaemonPid() const
+            {
+                return myDaemonizer.GetDaemonPid();
+            }
+
+            bool IsDaemon() const
+            {
+                return myDaemonizer.IsDaemon();
+            }
+
+            // Called when a signal is intercepted
+            virtual void SignalReceived(int signal) = 0;
+
+        private:
+            void SetupSignalHandlers();
 
 
-	daemonize::Daemon myDaemonizer;
-	const std::string myWorkingDirectory;
+            daemonize::Daemon myDaemonizer;
+            const std::string myWorkingDirectory;
 
-	static bool ValidateSignal( int signal );
-	static constexpr const int myInterceptedSignals[] = { SIGHUP, SIGINT, SIGTERM, SIGUSR1, SIGUSR2 };
+            static bool ValidateSignal(int signal);
 
-	static void HandleSignal( int signal );
+            static constexpr const int myInterceptedSignals[] = {SIGHUP, SIGINT, SIGTERM, SIGUSR1, SIGUSR2};
 
-	static Application* mySelf;
-};
+            static void HandleSignal(int signal);
+
+            static Application *mySelf;
+    };
 
 }

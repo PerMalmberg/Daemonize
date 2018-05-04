@@ -25,7 +25,7 @@ int Application::Run()
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-int Application::RunAsDaemon()
+int Application::RunAsDaemon(std::function<bool(void)> as_daemon)
 {
 	int result = 1;
 
@@ -37,7 +37,10 @@ int Application::RunAsDaemon()
 		if( identity == Daemon::ProcessIdentity::DAEMON_PROCESS )
 		{
 			SetupSignalHandlers();
-			result = Main(); // Call the main method
+			if(as_daemon())
+            {
+                result = Main(); // Call the main method
+            }
 		}
 		else
 		{
