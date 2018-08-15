@@ -8,7 +8,7 @@
 using namespace daemonize;
 
 Application* Application::mySelf;
-constexpr int Application::myInterceptedSignals[];
+std::vector<int> Application::myInterceptedSignals;
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -56,9 +56,21 @@ int Application::RunAsDaemon(std::function<bool(void)> as_daemon)
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
-Application::Application( const std::string& workingDirectory )
+Application::Application( const std::string& workingDirectory, const std::vector<int>& intercept_signals )
 		: myWorkingDirectory( workingDirectory )
 {
+	myInterceptedSignals = intercept_signals;
+	if(std::find(myInterceptedSignals.begin(), myInterceptedSignals.end(), SIGINT) == myInterceptedSignals.end())
+	{
+		myInterceptedSignals.push_back(SIGINT);
+	}
+
+	if(std::find(myInterceptedSignals.begin(), myInterceptedSignals.end(), SIGTERM) == myInterceptedSignals.end())
+	{
+		myInterceptedSignals.push_back(SIGTERM);
+	}
+
+
 	// Set the static reference to ourselves.
 	mySelf = this;
 }
@@ -108,7 +120,7 @@ void Application::SignalReceived( int signal )
 ///////////////////////////////////////////////////////////////////////////////
 bool Application::ValidateSignal( int signal )
 {
-	return std::find( std::begin(myInterceptedSignals), std::end(myInterceptedSignals), signal ) != nullptr;
+	return std::find( myInterceptedSignals.begin(), myInterceptedSignals.end(), signal ) != myInterceptedSignals.end();
 }
 
 
