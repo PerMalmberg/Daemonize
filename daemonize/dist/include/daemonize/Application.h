@@ -19,7 +19,7 @@ namespace daemonize
     class Application
     {
         public:
-            explicit Application(const std::string& workingDirectory);
+            explicit Application(const std::string& workingDirectory, const std::vector<int>& intercept_signals);
 
             int Run();
 
@@ -65,7 +65,7 @@ namespace daemonize
 
             static bool ValidateSignal(int signal);
 
-            static constexpr const int myInterceptedSignals[] = {SIGHUP, SIGINT, SIGTERM, SIGUSR1, SIGUSR2};
+            static std::vector<int> myInterceptedSignals;
 
             static void HandleSignal(int signal);
 
