@@ -3,6 +3,7 @@
 // Give credit where credit is due.
 
 #include <iostream>
+#include <unistd.h>
 #include "daemonize/Application.h"
 
 using namespace daemonize;
@@ -17,6 +18,10 @@ std::vector<int> Application::myInterceptedSignals;
 int Application::Run()
 {
 	SetupSignalHandlers();
+
+	// Change working dir also for normal app to be consistent.
+	chdir(myWorkingDirectory.c_str());
+
 	// Simply run the main method
 	return Main();
 }
@@ -81,7 +86,7 @@ Application::Application( const std::string& workingDirectory, const std::vector
 ///////////////////////////////////////////////////////////////////////////////
 void Application::SetupSignalHandlers()
 {
-	struct sigaction sa;
+	struct sigaction sa{};
 	sa.sa_handler = &HandleSignal;
 	sa.sa_flags = SA_RESTART;
 	sigfillset( &sa.sa_mask );

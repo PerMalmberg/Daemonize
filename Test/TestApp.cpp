@@ -13,7 +13,7 @@ using namespace std;
 
 
 TestApp::TestApp( const std::string& workingDirectory, const std::string& daemonPidFile )
-		: Application( workingDirectory ), myDaemonPidFile( daemonPidFile )
+		: Application( workingDirectory, std::vector<int>{SIGTERM, SIGINT} ), myDaemonPidFile( daemonPidFile )
 {
 }
 
